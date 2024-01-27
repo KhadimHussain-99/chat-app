@@ -6,6 +6,7 @@ import Recent from "../../components/recent";
 import { useDispatch, useSelector } from "react-redux";
 import useWidth from "../../hooks/useWidth";
 import { layOutMd, layOutSmall } from "../../store/toggleBarsSlice";
+import Right from "../../components/asideRight";
 
 const WebsiteLayout = () => {
   const {
@@ -13,9 +14,10 @@ const WebsiteLayout = () => {
     breakpoints: {},
   } = useWidth();
   const dispatch = useDispatch();
+  const toggle = useSelector((state) => state.toggle);
 
   useEffect(() => {
-    if (width >= 900) {
+    if (width >= 1024) {
       dispatch(layOutMd());
       console.log(width);
     } else {
@@ -24,10 +26,15 @@ const WebsiteLayout = () => {
   }, [width]);
 
   return (
-    <div className="h-screen w-full bg-blue-100 flex justify-between font-montserrat transition-all duration-300 ease-in-out">
+    <div
+      className={`relative h-screen w-full bg-blue-100 flex ${
+        toggle.layout ? "flex-row-reverse" : ""
+      } justify-between font-montserrat transition-all duration-300 ease-in-out`}
+    >
       <Navbar />
       <Recent />
       <Chat />
+      <Right />
       <AppBar />
     </div>
   );
